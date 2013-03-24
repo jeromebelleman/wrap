@@ -19,6 +19,8 @@ def wrap(body, width):
     # Arrange words in lines
     words = REWORDS.findall(body)
     line = words[0]
+    if not indent:
+        line += ' '
     first = True
     lines = []
     for w in words[1:]:
@@ -38,8 +40,10 @@ def wrap(body, width):
                 lines.append(indent + line)
                 line = w + ' '
 
-    # TODO Need to check if first?
-    lines.append(indent + line)
+    if first:
+        lines.append(line)
+    else:
+        lines.append(indent + line)
 
     return lines
 
