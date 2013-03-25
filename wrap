@@ -1,29 +1,23 @@
 #! /usr/bin/env python
 
-import sys
-import re
-import argparse
-import textwrap
+import sys, re, argparse, textwrap
 
-REINDENT = re.compile('^(\s*[^\w\s]\s*)')
-REWORDS = re.compile('\S+|^\s*')
+REINDENT = re.compile('^(\s*)([^\w\s]\s*)')
+REWORDS = re.compile('\S+')
 
 def wrap(body, width):
     # Check indent
     m = REINDENT.match(body)
     if m:
-        indent = ' ' * len(m.group())
+        firstindent, bullet =  m.groups()
+        indent = ' ' * len(firstindent + bullet)
     else:
-        indent = ''
+        firstindent, indent = '', ''
 
     # Arrange words in lines
     words = REWORDS.findall(body)
-    line = words[0]
-    if not indent:
-        line += ' '
-    first = True
-    lines = []
-    for w in words[1:]:
+    line, first, lines = firstindent, True, []
+    for w in words:
         if first:
             if len(line) + len(w) < width:
                 # TODO Take the extra space into account?
