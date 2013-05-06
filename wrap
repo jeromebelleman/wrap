@@ -5,6 +5,9 @@ import sys, re, argparse, textwrap
 REINDENT = re.compile('^(\s*)([^\w\s]\s*)')
 REWORDS = re.compile('\S+')
 
+# TODO Handle indents without bullets (e.g. code)
+# TODO Don't discard leading/trailing empty lines (e.g. gqap)
+
 def wrap(body, width):
     # Check indent
     m = REINDENT.match(body)
